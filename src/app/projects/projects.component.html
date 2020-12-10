@@ -1,0 +1,17 @@
+<a [routerLink]="['/dashboard']">Retour au dasbord</a>
+<table class="table table-striped">
+  <thead>
+    <th>Id</th>
+    <th>Libelle</th>
+    <th>Description</th>
+    <th>Action</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let project of projects">
+      <td>{{project.id}}</td>
+      <td>{{project.libelle}}</td>
+      <td>{{project.description}}</td>
+      <td><a [routerLink]="['/project',project.id]">Afficher</a></td>
+    </tr>
+  </tbody>
+</table>

@@ -3,12 +3,24 @@ import {Routes, RouterModule} from '@angular/router';
 import {BlankTemplateComponent} from './template/blank-template.component';
 import {LeftNavTemplateComponent} from './template/left-nav-template.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {ProjectComponent} from './project/project.component';
+import {ProjectsComponent} from './projects/projects.component';
 
-export const routes: Routes = [{
-  path: '',
-  redirectTo: 'dashboard',
-  pathMatch: 'full'
-}, {
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: 'projects',
+    component: ProjectsComponent
+  },
+  {
+    path: 'project/:id',
+    component: ProjectComponent
+  },
+  {
   path: '',
   component: LeftNavTemplateComponent,
   data: {
@@ -34,7 +46,7 @@ export const routes: Routes = [{
       loadChildren: () => import('./forms/forms.module').then(m => m.FormsModule),
       data: {
         title: 'Form Page'
-      },
+      }
     }
   ]
 }, {
@@ -49,7 +61,8 @@ export const routes: Routes = [{
       loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule)
     }
   ]
-}, {
+},
+  {
   path: '**',
   component: PageNotFoundComponent
 }];

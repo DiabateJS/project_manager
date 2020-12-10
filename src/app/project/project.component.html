@@ -1,0 +1,25 @@
+<h2>Projet : <b>{{project.libelle}}</b></h2>
+<br>
+<a [routerLink]="['/projects']">Retour aux projets</a><br>
+<br>
+<b>Identifiant</b> : {{project.id}} <br>
+<b>Description</b> : {{project.description}} <br>
+<br>
+<b>Tâches du projet</b> <br>
+<br>
+<table class="table table-striped">
+  <thead>
+    <th>Id</th>
+    <th>Titre</th>
+    <th>Description</th>
+    <th>Estimation</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tache of project.taches">
+      <td>{{tache.id}}</td>
+      <td>{{tache.libelle}}</td>
+      <td>{{tache.description}}</td>
+      <td>{{tache.estimation}}</td>
+    </tr>
+  </tbody>
+</table>
