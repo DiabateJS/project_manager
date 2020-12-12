@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ProjectService} from '../project.service';
+import {Project} from '../assets/js/projects_types';
 
 @Component({
   selector: 'app-tables',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TablesComponent implements OnInit {
 
-  constructor() { }
+  project: Project;
+  projects: Project[];
+  constructor(private projectService: ProjectService) {
+    this.projects = this.projectService.getProjects();
+  }
 
   ngOnInit() {
+  }
+
+  showProject(id: number): void {
+    this.project = this.projectService.getProjectById(id);
   }
 
 }

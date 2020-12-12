@@ -17,7 +17,6 @@ export class ProjectComponent implements OnInit {
               private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       this.idProject = params['id'];
-      console.log(`idProject -> ${this.idProject}`);
       this.project = this.projetService.getProjectById(this.idProject);
       console.log(this.project);
     });
