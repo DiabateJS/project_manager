@@ -6,6 +6,8 @@
           <div class="col-md-6">
         <div class="panel panel-default panel-table">
           <div class="panel-heading panel-heading-no-divider">Projets<span class="panel-subtitle">Liste des projets initiés</span></div>
+              <button class="pull-right" (click)="loadCreateProjectForm()">Nouveau</button><br>
+              <br>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
@@ -14,52 +16,123 @@
                       <th>Libelle</th>
                       <th>Description</th>
                       <th>Etat</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let oneproject of projects" (click)="showProject(oneproject.id)">
+                    <tr *ngFor="let oneproject of projects">
                       <td>{{oneproject.id}}</td>
-                      <td>{{oneproject.libelle}}</td>
+                      <td (click)="showProject(oneproject.id)">{{oneproject.libelle}}</td>
                       <td>{{oneproject.description}}</td>
-                      <th>{{oneproject.etat}}</th>
+                      <td><span class="badge badge-success">{{oneproject.etat | uppercase}}</span></td>
+                      <td>
+                          <button class="bg-success" (click)="showModifyProject(oneproject.id)">Modifier</button>
+                          <button class="bg-warning" (click)="deleteProject(oneproject.id)">Supprimer</button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
                 <br>
-                <h5>Détails</h5>
+                <div *ngIf="isNewProjectSelected">
+                <h5>Nouveau projet</h5>
                 <div class="form-group">
                     <div>
                       <label class="control-label" for="id">Id</label>
-                      <input id="id" class="form-control" type="text">
+                      <input [(ngModel)]="newProject.id" id="id" class="form-control" type="text" readonly>
                     </div>
                   <div>
                     <label class="control-label" for="libelle">Libelle</label>
-                    <input id="libelle" class="form-control" type="text">
+                    <input [(ngModel)]="newProject.libelle" id="libelle" class="form-control" type="text">
                   </div>
                   <div>
                     <label class="control-label" for="etat">Etat</label>
-                    <select id="etat" class="form-control">
+                    <select [(ngModel)]="newProject.etat" id="etat" class="form-control">
                       <option value="a faire">A Faire</option>
                       <option value="en cours">En Cours</option>
                       <option value="terminé">Terminé</option>
                     </select>
                   </div>
                   <div>
-                    <label class="control-label" for="estimation">Estimation</label>
-                    <input id="estimation" class="form-control" type="text">
-                  </div>
-                  <div>
                     <label class="control-label" for="description">Description</label>
-                    <textarea id="description" class="form-control"></textarea>
+                    <textarea [(ngModel)]="newProject.description" id="description" class="form-control"></textarea>
+                  </div>
+                  <br>
+                  <div>
+                    <button class="pull-right" (click)="createProject()">Créer</button>
                   </div>
                 </div>
+                </div>
+                <div *ngIf="isNewTaskSelected">
+                  <h5>Nouvelle tâche</h5>
+                  <div class="form-group">
+                    <div>
+                      <label class="control-label" for="id_tache">Id</label>
+                      <input [(ngModel)]="task.id" id="id_tache" class="form-control" type="text" value="" readonly>
+                    </div>
+                    <div>
+                      <label class="control-label" for="libelle_tache">Libelle</label>
+                      <input [(ngModel)]="task.libelle" id="libelle_tache" class="form-control" type="text">
+                    </div>
+                    <div>
+                      <label class="control-label" for="estimation_tache">Estimation</label>
+                      <input [(ngModel)]="task.estimation" id="estimation_tache" class="form-control" type="text">
+                    </div>
+                    <div>
+                      <label class="control-label" for="etat_tache">Etat</label>
+                      <select [(ngModel)]="task.etat" id="etat_tache" class="form-control">
+                        <option value="a faire">A Faire</option>
+                        <option value="en cours">En Cours</option>
+                        <option value="terminé">Terminé</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="control-label" for="description_tache">Description</label>
+                      <textarea [(ngModel)]="task.description" id="description_tache" class="form-control"></textarea>
+                    </div>
+                    <br>
+                    <div>
+                      <button class="pull-right" (click)="createTask()">Créer</button>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="isModifyProjectSelected">
+                  <h5>Modifier projet</h5>
+                  <div class="form-group">
+                    <div>
+                      <label class="control-label" for="id_modif">Id</label>
+                      <input [(ngModel)]="project.id" id="id_modif" class="form-control" type="text" readonly>
+                    </div>
+                    <div>
+                      <label class="control-label" for="libelle">Libelle</label>
+                      <input [(ngModel)]="project.libelle" id="libelle_modif" class="form-control" type="text">
+                    </div>
+                    <div>
+                      <label class="control-label" for="etat_modif">Etat</label>
+                      <select [(ngModel)]="project.etat" id="etat_modif" class="form-control">
+                        <option value="a faire">A Faire</option>
+                        <option value="en cours">En Cours</option>
+                        <option value="terminé">Terminé</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="control-label" for="description_modif">Description</label>
+                      <textarea [(ngModel)]="project.description" id="description_modif" class="form-control"></textarea>
+                    </div>
+                    <br>
+                    <div>
+                      <button class="pull-right" (click)="modifyProject(project.id)">Enregistrer</button>
+                    </div>
+                  </div>
+                  </div>
               </div>
             </div>
           </div>
           <div class="col-md-6">
         <div class="panel panel-default">
-          <div class="panel-heading panel-heading-no-divider">Tâches projet<span class="panel-subtitle">Plus d'info sur un projet spécifique </span></div>
-
+          <div class="panel-heading panel-heading-no-divider">
+            Tâches projet<span class="panel-subtitle">Plus d'info sur un projet spécifique </span></div><br>
+            <button class="pull-right" (click)="showAddProjectTaskForm(project.id)">Nouveau</button>
+            <br><br>
               <div class="table-responsive">
                 <table class="table table-striped">
                   <thead>
@@ -74,10 +147,10 @@
                   <tbody *ngIf="project != null">
                     <tr *ngFor="let tache of project.taches">
                       <td>{{tache.id}}</td>
-                      <td>{{tache.libelle}}</td>
+                      <td (click)="infosTache(tache.id)">{{tache.libelle}}</td>
                       <td>{{tache.description}}</td>
                       <td>{{tache.estimation}}</td>
-                      <td>{{tache.etat | uppercase}}</td>
+                      <td><span class="badge badge-success">{{tache.etat | uppercase}}</span></td>
                     </tr>
                   </tbody>
                 </table>
