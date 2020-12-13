@@ -15,9 +15,9 @@ export class TablesComponent implements OnInit {
   isNewProjectSelected: boolean;
   isModifyProjectSelected: boolean;
   isNewTaskSelected: boolean;
+  isModifyTaskSelected: boolean;
 
   task: Tache;
-  projectTasks: Tache[];
   constructor(private projectService: ProjectService) {
     this.projects = this.projectService.getProjects();
     this.newProject = new Project();
@@ -25,6 +25,7 @@ export class TablesComponent implements OnInit {
     this.isNewProjectSelected = false;
     this.isNewTaskSelected = false;
     this.isModifyProjectSelected = false;
+    this.isModifyTaskSelected = false;
   }
 
   ngOnInit() {
@@ -54,13 +55,20 @@ export class TablesComponent implements OnInit {
     this.project = this.projects.filter(p => p.id == id)[0];
   }
 
-  modifyProject(idProject: number){
-    let projectIndex = -1;
+  private getProjectIndex(idProject: number): number {
+    let projectIndex: number;
+    projectIndex = -1;
     this.projects.forEach((project, index) => {
       if (project.id == idProject) {
         projectIndex = index;
       }
     });
+    return projectIndex;
+  }
+
+  modifyProject(idProject: number){
+    let projectIndex: number;
+    projectIndex = this.getProjectIndex(idProject);
     if (projectIndex !== -1){
       this.projects[projectIndex] = this.project;
     }
@@ -70,19 +78,54 @@ export class TablesComponent implements OnInit {
   }
 
   deleteProject(id: number): void {
-    let projectIndex = -1;
-    this.projects.forEach((project, index) => {
-      if (project.id == id) {
-        projectIndex = index;
-      }
-    });
+    let projectIndex: number;
+    projectIndex = this.getProjectIndex(id);
     if (projectIndex !== -1) {
       this.projects.splice(projectIndex, 1);
     }
   }
 
-  infosTache(id: number): void {
+  showModifyTask(idTask: number): void {
+    this.isNewTaskSelected = false;
+    this.isNewProjectSelected = false;
+    this.isModifyTaskSelected = false;
+    this.isModifyTaskSelected = true;
+    let indexTask: number;
+    indexTask = this.getProjectTaskIndex(idTask);
+    if (indexTask !== -1) {
+      this.task = this.project.taches[indexTask];
+    }
+  }
 
+  private getProjectTaskIndex(idTask: number): number {
+    let taskIndex: number;
+    taskIndex = -1;
+    this.project.taches.forEach((t, index) => {
+      if (t.id == idTask) {
+        taskIndex = index;
+      }
+    })
+    return taskIndex;
+  }
+
+  modifyTask(idTask: number): void {
+    let indexTask: number;
+    indexTask = this.getProjectTaskIndex(idTask);
+    if (indexTask !== -1) {
+        this.project.taches[indexTask] = this.task;
+    }
+    this.isNewTaskSelected = false;
+    this.isNewProjectSelected = false;
+    this.isModifyTaskSelected = false;
+    this.isModifyTaskSelected = false;
+  }
+
+  deleteTask(idTask: number): void {
+    let indexTask: number;
+    indexTask = this.getProjectTaskIndex(idTask);
+    if (indexTask !== -1) {
+      this.project.taches.splice(indexTask, 1);
+    }
   }
 
   showAddProjectTaskForm(idProject: number): void {

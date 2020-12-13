@@ -124,6 +124,35 @@
                     </div>
                   </div>
                   </div>
+                <div *ngIf="isModifyTaskSelected">
+                  <h5>Modifier tâche</h5>
+                  <div class="form-group">
+                    <div>
+                      <label class="control-label" for="id_modif_tache">Id</label>
+                      <input [(ngModel)]="task.id" id="id_modif_tache" class="form-control" type="text" readonly>
+                    </div>
+                    <div>
+                      <label class="control-label" for="libelle">Libelle</label>
+                      <input [(ngModel)]="task.libelle" id="libelle_modif_tache" class="form-control" type="text">
+                    </div>
+                    <div>
+                      <label class="control-label" for="etat_modif_tache">Etat</label>
+                      <select [(ngModel)]="task.etat" id="etat_modif_tache" class="form-control">
+                        <option value="a faire">A Faire</option>
+                        <option value="en cours">En Cours</option>
+                        <option value="terminé">Terminé</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="control-label" for="description_modif_tache">Description</label>
+                      <textarea [(ngModel)]="task.description" id="description_modif_tache" class="form-control"></textarea>
+                    </div>
+                    <br>
+                    <div>
+                      <button class="pull-right" (click)="modifyTask(task.id)">Enregistrer</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -139,18 +168,18 @@
                     <tr>
                       <th>Id</th>
                       <th>Libelle</th>
-                      <th>Description</th>
                       <th>Estimation</th>
                       <th>Etat</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody *ngIf="project != null">
                     <tr *ngFor="let tache of project.taches">
                       <td>{{tache.id}}</td>
-                      <td (click)="infosTache(tache.id)">{{tache.libelle}}</td>
-                      <td>{{tache.description}}</td>
+                      <td>{{tache.libelle}}</td>
                       <td>{{tache.estimation}}</td>
                       <td><span class="badge badge-success">{{tache.etat | uppercase}}</span></td>
+                      <td><button class="bg-success" (click)="showModifyTask(tache.id)">Modifier</button> <button (click)="deleteTask(tache.id)" class="bg-warning">Supprimer</button></td>
                     </tr>
                   </tbody>
                 </table>
