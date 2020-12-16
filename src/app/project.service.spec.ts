@@ -22,12 +22,12 @@ describe('ProjectService', () => {
   it('should project with id 1 return correct value', () => {
     const result: Project = service.getProjectById(1);
     expect(result && result.id === 1).toBeTruthy();
-    expect(result.taches && result.taches.length > 0).toBeTruthy();
+    expect(result.tasks && result.tasks.length > 0).toBeTruthy();
   });
 
   it('should project taches return values', () => {
     const result: Project = service.getProjectById(1);
-    const taches: Tache[] = result ? result.taches : [];
+    const taches: Tache[] = result ? result.tasks : [];
     expect(taches && taches.length >= 0).toBeTruthy();
   });
 

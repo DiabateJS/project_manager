@@ -2,7 +2,7 @@ export class Project {
   id: number;
   libelle: string;
   description?: string;
-  taches: Tache[];
+  tasks: Tache[];
   etat?: EtatEnum;
 }
 

@@ -10,6 +10,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { NavigationComponent } from './shared/navigation/navigation.component';
 import { ProjectComponent } from './project/project.component';
 import { ProjectsComponent } from './projects/projects.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { ProjectsComponent } from './projects/projects.component';
         ProjectsComponent
     ],
     imports: [
+        HttpClientModule,
         BrowserModule,
         AppRoutingModule,
         RouterModule.forRoot(routes, {useHash: true})

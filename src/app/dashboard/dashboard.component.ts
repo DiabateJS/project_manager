@@ -17,22 +17,22 @@ export class DashboardComponent implements OnInit {
   nbTachesNonTermines: number;
 
   constructor(private projectService: ProjectService) {
-    this.nbProjects = this.projectService.getProjects().length;
     this.nbTaches = 0;
     this.nbProjectsTermine = 0;
     this.nbProjectsNonTermine = 0;
-    this.projectService.getProjects().forEach(project => {
-      this.nbTaches += project.taches.length;
-      if (project.etat === EtatEnum.TERMINE){
-        this.nbProjectsTermine += 1;
-      } else {
-        this.nbProjectsNonTermine += 1;
-      }
+    this.projectService.getProjects().subscribe(data => {
+        this.nbProjects = data.length;
+        data.forEach(project => {
+            this.nbTaches += project.tasks.length;
+            if (project.etat === EtatEnum.TERMINE) {
+              this.nbProjectsTermine += 1;
+            } else {
+              this.nbProjectsNonTermine += 1;
+            }
+            this.nbTachesTermines += project.tasks.filter(tache => tache.etat === EtatEnum.TERMINE).length;
+        });
     });
     this.nbTachesTermines = 0;
-    this.projectService.getProjects().forEach(project => {
-      this.nbTachesTermines += project.taches.filter(tache => tache.etat === EtatEnum.TERMINE).length;
-    });
     this.nbTachesNonTermines = this.nbTaches - this.nbTachesTermines;
   }
 

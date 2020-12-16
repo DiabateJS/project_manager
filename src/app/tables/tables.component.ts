@@ -16,10 +16,13 @@ export class TablesComponent implements OnInit {
   isModifyProjectSelected: boolean;
   isNewTaskSelected: boolean;
   isModifyTaskSelected: boolean;
+  private _projects: Project[];
 
   task: Tache;
   constructor(private projectService: ProjectService) {
-    this.projects = this.projectService.getProjects();
+    this.projectService.getProjects().subscribe(data => {
+      this.projects = data;
+    })
     this.newProject = new Project();
     this.task = new Tache();
     this.isNewProjectSelected = false;
@@ -93,14 +96,14 @@ export class TablesComponent implements OnInit {
     let indexTask: number;
     indexTask = this.getProjectTaskIndex(idTask);
     if (indexTask !== -1) {
-      this.task = this.project.taches[indexTask];
+      this.task = this.project.tasks[indexTask];
     }
   }
 
   private getProjectTaskIndex(idTask: number): number {
     let taskIndex: number;
     taskIndex = -1;
-    this.project.taches.forEach((t, index) => {
+    this.project.tasks.forEach((t, index) => {
       if (t.id == idTask) {
         taskIndex = index;
       }
@@ -112,7 +115,7 @@ export class TablesComponent implements OnInit {
     let indexTask: number;
     indexTask = this.getProjectTaskIndex(idTask);
     if (indexTask !== -1) {
-        this.project.taches[indexTask] = this.task;
+        this.project.tasks[indexTask] = this.task;
     }
     this.isNewTaskSelected = false;
     this.isNewProjectSelected = false;
@@ -124,7 +127,7 @@ export class TablesComponent implements OnInit {
     let indexTask: number;
     indexTask = this.getProjectTaskIndex(idTask);
     if (indexTask !== -1) {
-      this.project.taches.splice(indexTask, 1);
+      this.project.tasks.splice(indexTask, 1);
     }
   }
 
@@ -136,7 +139,7 @@ export class TablesComponent implements OnInit {
   }
 
   createTask(): void {
-    this.project.taches.push(this.task);
+    this.project.tasks.push(this.task);
     this.isNewTaskSelected = false;
     this.isNewProjectSelected = false;
   }
